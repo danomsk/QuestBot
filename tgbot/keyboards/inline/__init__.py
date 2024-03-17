@@ -1,0 +1,1 @@
+from .start_adventure import adventure

@@ -1,9 +1,9 @@
 from aiogram import Dispatcher
 from aiogram.types import Message
 
-
 async def user_start(message: Message):
-    await message.reply("Hello, user!")
+    await message.reply("Эх, к сожалению этот бот предназначен не для тебя(\nТак что свали пожалуйста!")
+    print(message.from_user.id)
 
 
 def register_user(dp: Dispatcher):

@@ -5,9 +5,9 @@ from aiogram.utils.markdown import hcode
 
 async def bot_echo(message: types.Message):
     text = [
-        "Эхо без состояния.",
-        "Сообщение:",
-        message.text
+        "Не надо тут ничего писать!",
+        "Это ж не игрушки тебе!",
+        "Просто следуй истории"
     ]
 
     await message.answer('\n'.join(text))
