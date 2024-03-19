@@ -23,6 +23,8 @@ async def answer_t1(message: Message, state: FSMContext):
                      "тебя знать и все и нашла там вот такая я я же девушка ты что я же умею")
 
     if (answer.lower() == right_ansewer):
+        await message.answer_sticker("CAACAgIAAxkBAAID5GX54xfVZM7Er-Jdenm95j_hm6-nAAK1QwAC5YFhSM_nctl8F-vZNAQ")
+        await asyncio.sleep(1)
         await message.answer("Надеюсь для тебя это было не слишком сложно)"
                              "\n\nПомню как сидел и общался с тобой, и даже подумать не могу насколько далеко зайдет наша с тобой история."
                              "\n\nКстати, так как у нас квест, то тебе полагается награда за выполение первого задания."
