@@ -9,6 +9,7 @@ from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
 from tgbot.filters.vika import VikaFilter
 from tgbot.handlers.FirstTask.first_task import register_first_task
+from tgbot.handlers.FourTask.four_task import register_four_task
 from tgbot.handlers.SecondTask.second_task import register_second_task
 from tgbot.handlers.ThreeTask.three_task import register_three_task
 from tgbot.handlers.admin import register_admin
@@ -33,9 +34,9 @@ def register_all_handlers(dp):
     register_first_task(dp)
     register_second_task(dp)
     register_three_task(dp)
+    register_four_task(dp)
+
     register_user(dp)
-
-
     register_echo(dp)
 
 

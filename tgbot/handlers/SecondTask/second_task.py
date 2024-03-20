@@ -131,12 +131,11 @@ async def difference_images(img1, img2):
     image1 = Image.open(img1)
     image2 = Image.open(img2)
 
-    result = ImageChops.difference(image1, image2)
-    if result.getbbox() == None:
+    result = ImageChops.difference(image1, image2).getbbox()
+    if result == None:
         print(img1, img2, 'matches')
         return True
     else:
-        result.save("result.jpg")
         return False
 
 async def echo_answer_text(message:Message):
