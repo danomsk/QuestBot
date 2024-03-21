@@ -122,8 +122,9 @@ async def him_gift(message: Message, state: FSMContext):
         await message.answer("Мы буквально 2 дня назад говорили об этом, ты чего!?")
 
 
-async def FindQr(message: Message):
+async def FindQr(message: Message, state: FSMContext):
     if (message.text == "54235124"):
+        await state.finish()
         await message.answer_sticker("CAACAgIAAxkBAAIGxmX7T4oaCGYWlvDkJF8dBIC4_jHxAAKFHQACrRcoSHKyxcxR75g8NAQ")
         await asyncio.sleep(1)
         await message.answer("ТЫ ПРОСТО СУПЕР МОЛОЛДЕЦ!"
@@ -135,10 +136,8 @@ async def FindQr(message: Message):
         await message.answer_sticker("CAACAgIAAxkBAAIGwGX7TxDqnHOyMNgkuVvr0Jk_ENhlAAJWHAAC18bISikDBZ-PnIX3NAQ")
         await asyncio.sleep(1)
         await message.answer_sticker("CAACAgIAAxkBAAIGw2X7T2HykxUzrau1QiZO7ECJP4rlAAJAAQACNannFC6sArI_yNPwNAQ")
-
-        await message.answer("Твой приз ждет тебя в самой первой настолке которую мы купили!", reply_markup=go_next_four)
-
         await bot.send_message(chat_id=config.tg_bot.admin_ids[0], text="Третье задание выполнено!")
+        await message.answer("Твой приз ждет тебя в самой первой настолке которую мы купили!", reply_markup=go_next_four)
 
     else:
         await message.answer("Я могу дать тебе только одну подсказку!", reply_markup=hint)

@@ -26,7 +26,7 @@ async def answer_t1(message: Message, state: FSMContext):
         await message.answer_sticker("CAACAgIAAxkBAAID5GX54xfVZM7Er-Jdenm95j_hm6-nAAK1QwAC5YFhSM_nctl8F-vZNAQ")
         await asyncio.sleep(1)
         await message.answer("Надеюсь для тебя это было не слишком сложно)"
-                             "\n\nПомню как сидел и общался с тобой, и даже подумать не могу насколько далеко зайдет наша с тобой история."
+                             "\n\nПомню как сидел и общался с тобой, и даже подумать не мог насколько далеко зайдет наша с тобой история."
                              "\n\nКстати, так как у нас квест, то тебе полагается награда за выполение первого задания."
                              "\nТвой приз ждет тебя  под кухонным столом!", reply_markup=go_next_second)
         await bot.send_message(chat_id=config.tg_bot.admin_ids[0], text="Первое задание выполнено!")

@@ -7,22 +7,28 @@ from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove, ContentTy
 from loader import config, bot
 from tgbot.keyboards.inline.FourTask.WhatDoYouSee import see
 from tgbot.keyboards.inline.FourTask.hints import hint1, hint2, hint3, hint4
+from tgbot.keyboards.inline.go_five_task import go_next_five
 from tgbot.misc.states import WhatDoYouSee, CountPhotos
 
 count_photo = 64
 HINT = 0
 
 
-# async def four_task(call: CallbackQuery):
-#     call.message.answer("Ну чтож, начнем новое задание")
-
-async def four_task(message: Message):
-    await message.answer("Ну чтож. Продолжим наш квест)")
+async def four_task(call: CallbackQuery):
+    await call.message.answer("Ну чтож. Продолжим наш квест)")
     await asyncio.sleep(2)
 
-    await message.answer("Первым делом тебе стоит осмотреться...")
+    await call.message.answer("Первым делом тебе стоит осмотреться...")
     await asyncio.sleep(2)
-    await message.answer("Ничего не замечаешь?", reply_markup=see)
+    await call.message.answer("Ничего не замечаешь?", reply_markup=see)
+
+# async def four_task(message: Message):
+#     await message.answer("Ну чтож. Продолжим наш квест)")
+#     await asyncio.sleep(2)
+#
+#     await message.answer("Первым делом тебе стоит осмотреться...")
+#     await asyncio.sleep(2)
+#     await message.answer("Ничего не замечаешь?", reply_markup=see)
 
 
 async def similar(message: Message):
@@ -40,8 +46,9 @@ async def banan(message: Message):
     await asyncio.sleep(8)
 
     await message.answer(
-        "Я предлагаю посчитать сколько всего фотографий где мы расположены, находятся у нас в квартире."
+        "Я предлагаю посчитать сколько всег/о фотографий где мы расположены, находятся у нас в квартире."
         "\nТебе стоит постараться и найти ВСЕ фотографии чтобы выполнить это задание."
+        "\n<tg-spoiler>Фотографии где мы изображены отдельно тоже считаются</tg-spoiler>"
         "\n\nУдачи солнце!)😘")
 
     await CountPhotos.Photos.set()
@@ -63,13 +70,16 @@ async def send_creator(message: Message, state: FSMContext):
                          "\nЭти артефакты не золото или серебро, но они – наши самые драгоценные сокровища."
                          "\nЭти маленькие прямоугольники, называемые фотографиями, хранят в себе мгновения нашей жизни. В каждом из них — море эмоций, лучи счастья и тепло наших объятий."
                          "\nНи один день не проходит, когда я не нахожу себя, вглядываясь в те тихие моменты нашего счастья."
-                         "\nОни – наша тихая коллекция воспоминаний🖼️✨")
+                         "\nОни – наша тихая коллекция воспоминаний🖼️✨", reply_markup=ReplyKeyboardRemove())
 
     await asyncio.sleep(8)
 
-    await message.answer("Я предлагаю посчитать сколько всего фотографий где мы вместе, находятся у нас в квартире."
-                         "\nТебе стоит постараться и найти ВСЕ фотографии чтобы выполнить это задание."
-                         "\n\nУдачи солнце!)😘")
+    await message.answer(
+        "Я предлагаю посчитать сколько всего фотографий где мы расположены, находятся у нас в квартире."
+        "\nТебе стоит постараться и найти ВСЕ фотографии чтобы выполнить это задание."
+        "\n<tg-spoiler>Фотографии где мы изображены отдельно тоже считаются</tg-spoiler>"
+        "\n\nУдачи солнце!)😘")
+
     await CountPhotos.Photos.set()
 
 
@@ -77,9 +87,20 @@ async def send_count_photos(message: Message, state: FSMContext):
     global HINT
     global count_photo
 
-    if int(message.text) == count_photo:
-        await message.answer("Угадала!")
+    if message.text == str(count_photo):
         await state.finish()
+        await message.answer_sticker("CAACAgEAAxkBAAIKG2X8BBlRHs_kituONrN9pGLk6TLxAAJ3AgAC1HTRRh3mI50THK73NAQ")
+        await asyncio.sleep(2)
+        await message.answer("🎉🎉🎉🎉Ты справилась с этим заданием! Поздравляю тебя.🎉🎉🎉🎉"
+                             f"\nУ нас есть целых <b>{count_photo}</b> фотографии!! И у каждой есть какая-нибудь история!"
+                             f"\nЯ безумно рад, что у нас с тобой есть такие ценные воспоминания!")
+        await asyncio.sleep(2)
+        await message.answer("И это я еще молчу про наши нераспечатанные фотографии. Я старался посчитать все наши фотки и только лишь в одном вк их оказалось больше 500."
+                             "\nВ любом случае я хотел бы запечатлеть больше радостных моментов вместе с тобой ❤️")
+        await asyncio.sleep(2)
+        await message.answer(
+            "Свой приз за выполнение этого задания ты можешь найти там, где висит фен", reply_markup=go_next_five)
+
         await bot.send_message(chat_id=config.tg_bot.admin_ids[0],
                                text=f"Она выполнила четвертое задание")
     elif HINT == 0:
@@ -91,8 +112,11 @@ async def send_count_photos(message: Message, state: FSMContext):
     elif HINT == 2:
         await message.answer("И с третьего раза не получилось!!??!!?!!???", reply_markup=hint3)
         HINT += 1
+    elif HINT ==3:
+        await message.answer("Ну вот тебе финальная подсказка чтоб уж наверняка!", reply_markup=hint4)
+        HINT += 1
     else:
-        await message.answer("Ну вот тебе финальная подсказка чтоб уж на верняка!", reply_markup=hint4)
+        await message.answer_sticker("CAACAgIAAxkBAAIJvGX8ARyVhWTraU1QngM83MBykePxAALmIwACV8MxSAbcOi79THu0NAQ")
 
 
 async def hint_1(call: CallbackQuery):
@@ -110,7 +134,7 @@ async def hint_4(call: CallbackQuery):
     await call.message.answer("Не стоит забывать про нашу САМУЮ первую фотографию")
 
 def register_four_task(dp: Dispatcher):
-    dp.register_message_handler(four_task, commands=["four"])
+    #dp.register_message_handler(four_task, commands=["four"])
 
     dp.register_message_handler(similar, text="Да, я как раз сейчас вижу кое-что необычное🤔")
     dp.register_message_handler(banan, text="А что сказать? Ну... 🍌")
@@ -123,4 +147,4 @@ def register_four_task(dp: Dispatcher):
     dp.register_callback_query_handler(hint_3, text="four_hint3", state=CountPhotos.Photos)
     dp.register_callback_query_handler(hint_4, text="four_hint4", state=CountPhotos.Photos)
 
-    # dp.register_callback_query_handler(four_task, text="Find three gift")
+    dp.register_callback_query_handler(four_task, text="Find three gift")
